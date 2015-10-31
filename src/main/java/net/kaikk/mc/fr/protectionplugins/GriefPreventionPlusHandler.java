@@ -20,7 +20,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canBuild(Player player, Location location) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(location, false);
 		if (claim==null) {
 			return true;
@@ -39,7 +38,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canAccess(Player player, Location location) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(location, false);
 		if (claim==null) {
 			return true;
@@ -58,7 +56,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canUse(Player player, Location location) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(location, false);
 		if (claim==null) {
 			return true;
@@ -77,7 +74,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 	
 	@Override
 	public boolean canOpenContainer(Player player, Block block) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(block.getLocation(), false);
 		if (claim==null) {
 			return true;
@@ -96,7 +92,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canInteract(Player player, Location location) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(location, false);
 		if (claim==null) {
 			return true;
@@ -116,7 +111,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canAttack(Player damager, Entity damaged) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(damaged.getLocation(), false);
 		if (claim==null) {
 			return true;
@@ -135,7 +129,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canProjectileHit(Player player, Location location) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(location, false);
 		if (claim==null) {
 			return true;
@@ -154,7 +147,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 	
 	@Override
 	public boolean canUseAoE(Player player, Location location, int range) {
-		//ForgeRestrictor.getInstance().getLogger().info(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Claim claim = this.dataStore.getClaimAt(location, false);
 		if (claim!=null) {
 			if (claim.canBuild(player)!=null) {
