@@ -16,7 +16,6 @@ class Config {
 	FileConfiguration config;
 	
 	List<ListedItem> whitelist;
-	List<ListedItem> containers;
 	List<ListedRangedItem> ranged;
 	List<ListedRangedItem> aoe;
 
@@ -37,15 +36,6 @@ class Config {
 				this.whitelist.add(new ListedItem(serialized));
 			} catch (Exception e) {
 				ForgeRestrictor.getInstance().getLogger().warning("Invalid Whitelist element in config: "+serialized);
-			}
-		}
-		
-		this.containers=new ArrayList<ListedItem>();
-		for (String serialized : this.config.getStringList("Containers")) {
-			try {
-				this.containers.add(new ListedItem(serialized));
-			} catch (Exception e) {
-				ForgeRestrictor.getInstance().getLogger().warning("Invalid Containers element in config: "+serialized);
 			}
 		}
 		
@@ -76,7 +66,6 @@ class Config {
 			this.config.set("Protection.WorldGuard", ProtectionPlugins.WorldGuard.isEnabled());
 			
 			this.config.set("Whitelist", serializeListedItemList(this.whitelist));
-			this.config.set("Containers", serializeListedItemList(this.containers));
 			this.config.set("Ranged", serializeListedItemList(this.ranged));
 			this.config.set("AoE", serializeListedItemList(this.aoe));
 			
@@ -88,11 +77,6 @@ class Config {
 	
 	void addWhitelistItem(ListedItem item) {
 		this.whitelist.add(item);
-		this.save();
-	}
-	
-	void addContainer(ListedItem item) {
-		this.containers.add(item);
 		this.save();
 	}
 	
@@ -109,10 +93,6 @@ class Config {
 	ListedItem getWhitelistItem(Material material, Byte data, String world) {
 		ForgeRestrictor.getInstance().getLogger().info("getWhitelistItem");
 		return getListedItem(this.whitelist, material, data, world);
-	}
-	
-	ListedItem getContainer(Material material, Byte data, String world) {
-		return getListedItem(this.containers, material, data, world);
 	}
 	
 	ListedRangedItem getRangedItem(Material material, Byte data, String world) {
@@ -137,10 +117,6 @@ class Config {
 		return matchListedItem(this.whitelist, material, data, world);
 	}
 	
-	ListedItem matchContainer(Material material, Byte data, String world) {
-		return matchListedItem(this.containers, material, data, world);
-	}
-	
 	ListedRangedItem matchRangedItem(Material material, Byte data, String world) {
 		return (ListedRangedItem) matchListedItem(this.ranged, material, data, world);
 	}
@@ -161,9 +137,6 @@ class Config {
 	
 	boolean removeWhitelistItem(Material material, Byte data, String world) {
 		return removeListedItem(this.whitelist, material, data, world);
-	}
-	boolean removeContainer(Material material, Byte data, String world) {
-		return removeListedItem(this.containers, material, data, world);
 	}
 	boolean removeRangedItem(Material material, Byte data, String world) {
 		return removeListedItem(this.ranged, material, data, world);

@@ -12,13 +12,12 @@ All builds for my plugins can be found at this link: http://kaikk.net/mc/
 Just drop the jar to plugins folder.
 
 ###How to configure it
-"/fres" is the main command. There are 4 lists: whitelist, containers, ranged and aoe:
+"/fres" is the main command. There are 3 lists: whitelist, ranged and aoe:
 - Whitelist: all items in this list are whitelisted, so they won't be blocked
-- Containers: even if there's a container autodetection, some block may not be considered containers (thaumcraft?). Add them to this list so they'll be considered containers.
 - Ranged: items in this list are ranged items. Like a bow. They can shoot far away, all items in this list will check the target block.
 - AoE: there are items that produces effect in the area around the player, like the Horn of the Wild. Items in this list will check permissions in the area around the player.
 
-Command usage: /fres (whitelist/containers/ranged/aoe) (add/remove/list) (ItemID/ItemName/Hand) (range) (world)
+Command usage: /fres (whitelist/ranged/aoe) (add/remove/list) (ItemID/ItemName/Hand) (range) (world)
 
 ###Major features
 - Reduces griefing with a lot of modded items.

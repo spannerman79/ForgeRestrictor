@@ -52,7 +52,7 @@ public class CommandExec implements CommandExecutor {
 			String usage;
 			switch(args[0].toLowerCase()) {
 			case "add":
-				usage="Usage:\n/"+label+" add (whitelist|container) ('hand'|itemid|itemname)[:(metadata)] [world]\n"
+				usage="Usage:\n/"+label+" add (whitelist) ('hand'|itemid|itemname)[:(metadata)] [world]\n"
 						+ "/"+label+" add (ranged|aoe) ('hand'|itemid|itemname)[:(metadata)] [range] [world]";
 				if (args.length<3) {
 					sender.sendMessage(usage);
@@ -67,12 +67,6 @@ public class CommandExec implements CommandExecutor {
 							throw new IllegalArgumentException("This item already exists.");
 						}
 						this.instance.config.addWhitelistItem(listedItem);
-						break;
-					case "container":
-						if (this.instance.config.getContainer(listedItem.material, listedItem.data, listedItem.world)!=null) {
-							throw new IllegalArgumentException("This item already exists.");
-						}
-						this.instance.config.addContainer(listedItem);
 						break;
 					case "ranged":
 						if (this.instance.config.getRangedItem(listedItem.material, listedItem.data, listedItem.world)!=null) {
@@ -99,7 +93,7 @@ public class CommandExec implements CommandExecutor {
 					return false;
 				}
 			case "remove":
-				usage="Usage:\n/"+label+" remove (whitelist|container|ranged|aoe) ('hand'|itemid|itemname)[:(metadata)] [world]";
+				usage="Usage:\n/"+label+" remove (whitelist|ranged|aoe) ('hand'|itemid|itemname)[:(metadata)] [world]";
 				if (args.length<3) {
 					sender.sendMessage(usage);
 					return false;
@@ -110,11 +104,6 @@ public class CommandExec implements CommandExecutor {
 					switch(args[1].toLowerCase()) {
 					case "whitelist":
 						if (!this.instance.config.removeWhitelistItem(listedItem.material, listedItem.data, listedItem.world)) {
-							throw new IllegalArgumentException("Item not found");
-						}
-						break;
-					case "container":
-						if (!this.instance.config.removeContainer(listedItem.material, listedItem.data, listedItem.world)) {
 							throw new IllegalArgumentException("Item not found");
 						}
 						break;
@@ -141,7 +130,7 @@ public class CommandExec implements CommandExecutor {
 					return false;
 				}
 			case "list":
-				usage="Usage:\n/"+label+" list (whitelist|container|ranged|aoe)";
+				usage="Usage:\n/"+label+" list (whitelist|ranged|aoe)";
 				if (args.length<2) {
 					sender.sendMessage(usage);
 					return false;
@@ -155,15 +144,6 @@ public class CommandExec implements CommandExecutor {
 						}
 						sender.sendMessage("§2ForgeRestrictor Whitelist\n(ItemName:Data [World])");
 						for (ListedItem listedItem : this.instance.config.whitelist) {
-							sender.sendMessage(listedItem.toString());
-						}
-						return true;
-					case "container":
-						if (this.instance.config.containers.size()==0) {
-							throw new IllegalArgumentException("Container list is empty");
-						}
-						sender.sendMessage("§2ForgeRestrictor Container list\n(ItemName:Data [World])");
-						for (ListedItem listedItem : this.instance.config.containers) {
 							sender.sendMessage(listedItem.toString());
 						}
 						return true;
@@ -309,7 +289,6 @@ public class CommandExec implements CommandExecutor {
 		
 		switch(args[1].toLowerCase()) {
 		case "whitelist":
-		case "container":
 			if (args.length>3) {
 				if (this.instance.getServer().getWorld(args[3])==null) {
 					throw new IllegalArgumentException("Unknown world");

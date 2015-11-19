@@ -24,7 +24,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
@@ -59,20 +58,6 @@ class EventListener implements Listener {
 			return;
 		}
 		
-		// Containers require container permission
-		if (block!=null && (block.getState() instanceof InventoryHolder || this.instance.config.matchContainer(block.getType(), block.getData(), block.getWorld().getName()) != null)) { 
-			for (ProtectionHandler protection : ProtectionPlugins.getHandlers()) {
-				if (!protection.canOpenContainer(player, block)) {
-					event.setUseInteractedBlock(Result.DENY);
-					event.setUseItemInHand(Result.DENY);
-					event.setCancelled(true);
-					this.confiscateInventory(player);
-					return;
-				}
-			}
-			return;
-		}
-
 		// whitelisted items in hand
 		ItemStack itemInHand=player.getItemInHand();
 		if (this.instance.config.matchWhitelistItem(itemInHand.getType(), itemInHand.getData().getData(), player.getWorld().getName()) !=null) {
