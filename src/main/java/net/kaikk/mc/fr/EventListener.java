@@ -53,11 +53,6 @@ class EventListener implements Listener {
 		}
 		
 		Block block=event.getClickedBlock();
-		
-		// ignore click on signs and chests, used by multiple plugins (like shop plugins)
-		if (block!=null && event.getAction()==Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType()==Material.SIGN) { 
-			return;
-		}
 
 		// ignore edible items use
 		if (player.getItemInHand().getData().getItemType().isEdible() && event.getAction()==Action.RIGHT_CLICK_AIR) {
