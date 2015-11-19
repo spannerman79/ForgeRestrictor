@@ -45,14 +45,14 @@ class EventListener implements Listener {
 			return;
 		}
 		
-		Block block=event.getClickedBlock();
 		final Player player = event.getPlayer();
 
-		
-		// ignore any empty-handed click in the air
-		if (block==null && player.getItemInHand().getType()==Material.AIR) {
+		// ignore vanilla items in hand
+		if (player.getItemInHand().getType().getId()<=423) {
 			return;
 		}
+		
+		Block block=event.getClickedBlock();
 		
 		// ignore click on signs and chests, used by multiple plugins (like shop plugins)
 		if (block!=null && event.getAction()==Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType()==Material.SIGN) { 
