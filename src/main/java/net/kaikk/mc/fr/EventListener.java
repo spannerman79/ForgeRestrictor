@@ -46,8 +46,8 @@ class EventListener implements Listener {
 		
 		final Player player = event.getPlayer();
 
-		// ignore vanilla items in hand
-		if (player.getItemInHand().getType().getId()<=423) {
+		// ignore vanilla items in hand (but TNT and TNT minecart)
+		if (player.getItemInHand().getType().getId()<=423 && player.getItemInHand().getType()!=Material.TNT && player.getItemInHand().getType()!=Material.EXPLOSIVE_MINECART) {
 			return;
 		}
 		
