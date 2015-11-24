@@ -46,15 +46,15 @@ class EventListener implements Listener {
 		
 		final Player player = event.getPlayer();
 
-		// ignore vanilla items in hand (but TNT and TNT minecart)
-		if (player.getItemInHand().getType().getId()<=423 && player.getItemInHand().getType()!=Material.TNT && player.getItemInHand().getType()!=Material.EXPLOSIVE_MINECART) {
+		// ignore empty hand
+		if (player.getItemInHand().getType()==Material.AIR) {
 			return;
 		}
 		
 		Block block=event.getClickedBlock();
-
+		
 		// ignore edible items use
-		if (player.getItemInHand().getData().getItemType().isEdible() && event.getAction()==Action.RIGHT_CLICK_AIR) {
+		if (player.getItemInHand().getData().getItemType().isEdible()) {
 			return;
 		}
 		
