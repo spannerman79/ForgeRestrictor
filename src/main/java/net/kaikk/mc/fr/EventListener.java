@@ -45,25 +45,26 @@ class EventListener implements Listener {
 		}
 
 		final Player player = event.getPlayer();
-		Block block=event.getClickedBlock();
+		Block block = event.getClickedBlock();
 
+		final ItemStack item = event.getItem();
+		
 		// ignore all vanilla items and edible items in vanilla blocks actions
-		if (block!=null && (player.getItemInHand().getData().getItemType().isEdible() || isVanilla(player.getItemInHand().getType())) && isVanilla(block.getType())) {
+		if (block!=null && (item.getData().getItemType().isEdible() || isVanilla(item.getType())) && isVanilla(block.getType())) {
 			return;
 		}
 
-		// whitelisted items in hand
-		ItemStack itemInHand=player.getItemInHand();
-		if (this.instance.config.matchWhitelistItem(itemInHand.getType(), itemInHand.getData().getData(), player.getWorld().getName()) !=null) {
+		// whitelisted item check
+		if (this.instance.config.matchWhitelistItem(item.getType(), item.getData().getData(), player.getWorld().getName()) !=null) {
 			return;
 		}
 
 		// special aoe items list (needs to check a wide area...)
-		ListedRangedItem item = this.instance.config.matchAoEItem(itemInHand.getType(), itemInHand.getData().getData(), player.getWorld().getName());
-		if (item!=null) {
+		ListedRangedItem rangeItem = this.instance.config.matchAoEItem(item.getType(), item.getData().getData(), player.getWorld().getName());
+		if (rangeItem!=null) {
 			// check players location
 			for (ProtectionHandler protection : ProtectionPlugins.getHandlers()) {
-				if (!protection.canUseAoE(player, player.getLocation(), item.range)) {
+				if (!protection.canUseAoE(player, player.getLocation(), rangeItem.range)) {
 					event.setUseInteractedBlock(Result.DENY);
 					event.setUseItemInHand(Result.DENY);
 					event.setCancelled(true);
@@ -76,9 +77,9 @@ class EventListener implements Listener {
 
 		if (block==null) {
 			// check if the item in hand is a ranged item
-			item = this.instance.config.matchRangedItem(itemInHand.getType(), itemInHand.getData().getData(), player.getWorld().getName());
-			if (item!=null) {
-				block=getTargetBlock(player, item.range);
+			rangeItem = this.instance.config.matchRangedItem(item.getType(), item.getData().getData(), player.getWorld().getName());
+			if (rangeItem!=null) {
+				block=getTargetBlock(player, rangeItem.range);
 			}
 
 		}
@@ -130,8 +131,8 @@ class EventListener implements Listener {
 		if (player.getName().startsWith("[")) {
 			return;
 		}
-
-		ItemStack itemInHand=player.getItemInHand();
+		
+		ItemStack itemInHand=event.getItemInHand();
 
 		// special aoe items list (needs to check a wide area...)
 		ListedRangedItem item = this.instance.config.getAoEItem(itemInHand.getType(), itemInHand.getData().getData(), player.getWorld().getName());
@@ -495,7 +496,6 @@ class EventListener implements Listener {
 		case LEAVES:
 		case LEAVES_2:
 		case LEVER:
-		case LOCKED_CHEST:
 		case LOG:
 		case LOG_2:
 		case LONG_GRASS:
