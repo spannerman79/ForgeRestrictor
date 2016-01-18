@@ -47,7 +47,10 @@ class EventListener implements Listener {
 		final Player player = event.getPlayer();
 		Block block = event.getClickedBlock();
 
-		final ItemStack item = event.getItem();
+		ItemStack item = event.getItem();
+		if (item==null) {
+			item = player.getItemInHand();
+		}
 		
 		// ignore all vanilla items and edible items in vanilla blocks actions
 		if (block!=null && (item.getData().getItemType().isEdible() || isVanilla(item.getType())) && isVanilla(block.getType())) {
