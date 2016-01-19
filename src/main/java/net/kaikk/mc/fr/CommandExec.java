@@ -34,21 +34,6 @@ public class CommandExec implements CommandExecutor {
 				return false;
 			}
 			
-			
-			if (args[0].equals("test")) {
-				final Player p = player;
-				final ItemStack[] is = player.getInventory().getContents();
-				player.getInventory().clear();
-				
-				new BukkitRunnable() {
-		            @Override
-		            public void run() {
-		               p.getInventory().setContents(is);
-		            }
-		        }.runTaskLater(this.instance, 60);
-				return true;
-			}
-			
 			String usage;
 			switch(args[0].toLowerCase()) {
 			case "add":
