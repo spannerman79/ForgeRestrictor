@@ -1,21 +1,25 @@
 package net.kaikk.mc.fr.protectionplugins;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+
 import net.kaikk.mc.fr.ProtectionHandler;
 import net.kaikk.mc.gpp.Claim;
 import net.kaikk.mc.gpp.DataStore;
 import net.kaikk.mc.gpp.GriefPreventionPlus;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-
 
 public class GriefPreventionPlusHandler implements ProtectionHandler {
 	DataStore dataStore;
+	net.kaikk.mc.gpp.Config gConfig;
 
 	public GriefPreventionPlusHandler() {
 		this.dataStore = GriefPreventionPlus.getInstance().getDataStore();
+		this.gConfig = GriefPreventionPlus.getInstance().config;
 	}
 
 	@Override
@@ -111,18 +115,41 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canAttack(Player damager, Entity damaged) {
-		Claim claim = this.dataStore.getClaimAt(damaged.getLocation(), false);
-		if (claim==null) {
+		if (damaged instanceof Monster) {
 			return true;
 		}
 		
-		String reason=claim.canBuild(damager);
-		
-		if (reason==null) {
-			return true;
+		if (damaged instanceof Player) {
+			if (!GriefPreventionPlus.getInstance().config.pvp_enabledWorlds.contains(damaged.getWorld().getUID())) {
+				damager.sendMessage("PvP is disabled in this world");
+				return false;
+			}
+			
+			Claim claim = this.dataStore.getClaimAt(damaged.getLocation(), false);
+			if (claim==null) {
+				return true;
+			}
+			
+			String reason=claim.canBuild(damager);
+			if (reason==null) {
+				return true;
+			}
+			
+			damager.sendMessage(reason);
+		} else if (damaged instanceof Animals) {
+			Claim claim = this.dataStore.getClaimAt(damaged.getLocation(), false);
+			if (claim==null) {
+				return true;
+			}
+			
+			String reason=claim.canOpenContainers(damager); // allow farming with /containertrust
+			
+			if (reason==null) {
+				return true;
+			}
+			
+			damager.sendMessage(reason);
 		}
-		
-		damager.sendMessage(reason);
 		
 		return false;
 	}
