@@ -2,6 +2,7 @@ package net.kaikk.mc.fr.protectionplugins;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -11,7 +12,6 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import net.kaikk.mc.fr.ProtectionHandler;
 
@@ -29,12 +29,12 @@ public class WorldGuardHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canAccess(Player player, Location location) {
-		return this.check(player, location, DefaultFlag.INTERACT);
+		return this.check(player, location, DefaultFlag.USE);
 	}
 
 	@Override
 	public boolean canUse(Player player, Location location) {
-		return this.check(player, location, DefaultFlag.INTERACT);
+		return this.check(player, location, DefaultFlag.BUILD);
 	}
 
 	@Override
@@ -44,12 +44,19 @@ public class WorldGuardHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canInteract(Player player, Location location) {
-		return this.check(player, location, DefaultFlag.INTERACT);
+		return this.check(player, location, DefaultFlag.BUILD);
 	}
 
 	@Override
 	public boolean canAttack(Player player, Entity entity) {
-		return this.check(player, entity.getLocation(), DefaultFlag.PVP);
+		if (entity instanceof Player) {
+			return this.check(player, entity.getLocation(), DefaultFlag.PVP);
+		}
+		if (entity instanceof Animals) {
+			return this.check(player, entity.getLocation(), DefaultFlag.DAMAGE_ANIMALS);
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -66,15 +73,6 @@ public class WorldGuardHandler implements ProtectionHandler {
 		}
 
 		return perm;
-		
-		/*for (ProtectedRegion pr : ars.getRegions()) {
-			if (!this.worldGuard.canBuild(player, new Location(location.getWorld(), pr.getMaximumPoint().getBlockX(), pr.getMaximumPoint().getBlockY(), pr.getMaximumPoint().getBlockZ()))) {
-				this.permissionDeniedMessage(player);
-				return false;
-			}
-		}
-		
-		return true;*/
 	}
 	
 	protected boolean check(Player player, Location location, StateFlag flag) {
