@@ -19,6 +19,7 @@ class Config {
 	List<ListedRangedItem> ranged;
 	List<ListedRangedItem> aoe;
 
+	int confiscateTicks;
 	
 	Config() {
 		this.configFile = new File(configFilePath);
@@ -56,6 +57,8 @@ class Config {
 				ForgeRestrictor.getInstance().getLogger().warning("Invalid AoE element in config: "+serialized);
 			}
 		}
+		
+		this.confiscateTicks = this.config.getInt("ConfiscateTicks", 3);
 		
 		this.save();
 	}

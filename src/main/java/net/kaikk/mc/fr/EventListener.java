@@ -255,8 +255,16 @@ class EventListener implements Listener {
 			}
 		}
 	}
-
+	
 	void confiscateInventory(Player player) {
+		confiscateInventory(player, this.instance.config.confiscateTicks);
+	}
+
+	void confiscateInventory(Player player, int ticks) {
+		if (ticks<1) {
+			return;
+		}
+		
 		if (player.getName().startsWith("[") || !player.isOnline() || isInventoryEmpty(player)) {
 			return;
 		}
@@ -273,7 +281,7 @@ class EventListener implements Listener {
 
 					EventListener.confiscatedInventories=null;
 				}
-			}.runTaskLater(this.instance, 3);
+			}.runTaskLater(this.instance, ticks);
 		} else {
 			// check if this player has his inventory already confiscated
 			for (ConfiscatedInventory ci : confiscatedInventories) {
@@ -282,7 +290,7 @@ class EventListener implements Listener {
 				}
 			}
 		}
-		this.instance.getLogger().info("Confiscated "+player.getName()+" items for 3 ticks");
+		this.instance.getLogger().info("Confiscated "+player.getName()+" items for "+ticks+" ticks");
 		confiscatedInventories.add(new ConfiscatedInventory(player));
 	}
 
