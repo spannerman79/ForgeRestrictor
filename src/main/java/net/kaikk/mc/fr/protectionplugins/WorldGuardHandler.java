@@ -71,7 +71,7 @@ public class WorldGuardHandler implements ProtectionHandler {
 	@Override
 	public boolean canUseAoE(Player player, Location location, int range) {
 		ApplicableRegionSet regions = this.getRegions(location, range);
-		boolean perm = regions.queryState(worldGuard.wrapPlayer(player), DefaultFlag.BUILD) != State.DENY && regions.queryState(worldGuard.wrapPlayer(player), DefaultFlag.PVP) != State.DENY;
+		boolean perm = regions.queryState(worldGuard.wrapPlayer(player), DefaultFlag.BUILD) != State.DENY;
 		if (!perm) {
 			this.permissionDeniedMessage(player);
 		}
