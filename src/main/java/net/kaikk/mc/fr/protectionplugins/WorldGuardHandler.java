@@ -12,6 +12,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 
 import net.kaikk.mc.fr.ProtectionHandler;
@@ -70,7 +71,7 @@ public class WorldGuardHandler implements ProtectionHandler {
 	@Override
 	public boolean canUseAoE(Player player, Location location, int range) {
 		ApplicableRegionSet regions = this.getRegions(location, range);
-		boolean perm = regions.testState(worldGuard.wrapPlayer(player), DefaultFlag.BUILD)&& regions.testState(worldGuard.wrapPlayer(player), DefaultFlag.PVP);
+		boolean perm = regions.queryState(worldGuard.wrapPlayer(player), DefaultFlag.BUILD) != State.DENY && regions.queryState(worldGuard.wrapPlayer(player), DefaultFlag.PVP) != State.DENY;
 		if (!perm) {
 			this.permissionDeniedMessage(player);
 		}
@@ -80,7 +81,7 @@ public class WorldGuardHandler implements ProtectionHandler {
 	
 	protected boolean check(Player player, Location location, StateFlag flag) {
 		ApplicableRegionSet regions = this.getRegions(location);
-		boolean perm = regions.testState(worldGuard.wrapPlayer(player), flag);
+		boolean perm = regions.queryState(worldGuard.wrapPlayer(player), flag) != State.DENY;
 		if (!perm) {
 			this.permissionDeniedMessage(player);
 		}
