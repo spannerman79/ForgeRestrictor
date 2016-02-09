@@ -6,6 +6,7 @@ import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -51,16 +52,14 @@ public class WorldGuardHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canAttack(Player player, Entity entity) {
-		if (entity instanceof Monster) {
-			return true;
-		}
 		if (entity instanceof Player) {
 			return this.check(player, entity.getLocation(), DefaultFlag.PVP);
 		}
-		if (entity instanceof Animals) {
+		if (entity instanceof Animals || entity instanceof Villager) {
 			return this.check(player, entity.getLocation(), DefaultFlag.DAMAGE_ANIMALS);
 		}
-		return false;
+		
+		return true;
 	}
 
 	@Override
