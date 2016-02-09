@@ -5,7 +5,7 @@ import java.util.Arrays;
 import net.kaikk.mc.fr.protectionplugins.GriefPreventionPlusHandler;
 import net.kaikk.mc.fr.protectionplugins.WorldGuardHandler;
 
-enum ProtectionPlugins {
+public enum ProtectionPlugins {
 	GriefPreventionPlus(GriefPreventionPlusHandler.class),
 	WorldGuard(WorldGuardHandler.class);
 	
@@ -19,11 +19,11 @@ enum ProtectionPlugins {
 		this.clazz=clazz;
 	}
 
-	boolean isEnabled() {
+	public boolean isEnabled() {
 		return enabled;
 	}
 	
-	void setEnabled(boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 		generateHandlersList();
 	}
@@ -51,11 +51,11 @@ enum ProtectionPlugins {
 		handlersList=Arrays.copyOf(arr, i);
 	}
 	
-	static ProtectionHandler[] getHandlers() {
+	public static ProtectionHandler[] getHandlers() {
 		return handlersList;
 	}
 	
-	static String[] getNameList() {
+	public static String[] getNameList() {
 		String[] list = new String[ProtectionPlugins.values().length];
 		int i=0;
 		for (ProtectionPlugins pp : ProtectionPlugins.values()) {
