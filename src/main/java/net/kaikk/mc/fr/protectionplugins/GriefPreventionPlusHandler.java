@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 
 import net.kaikk.mc.fr.ProtectionHandler;
 import net.kaikk.mc.gpp.Claim;
@@ -115,10 +115,6 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canAttack(Player damager, Entity damaged) {
-		if (damaged instanceof Monster) {
-			return true;
-		}
-		
 		if (damaged instanceof Player) {
 			if (!GriefPreventionPlus.getInstance().config.pvp_enabledWorlds.contains(damaged.getWorld().getUID())) {
 				damager.sendMessage("PvP is disabled in this world");
@@ -136,7 +132,7 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 			}
 			
 			damager.sendMessage(reason);
-		} else if (damaged instanceof Animals) {
+		} else if (damaged instanceof Animals || damaged instanceof Villager) {
 			Claim claim = this.dataStore.getClaimAt(damaged.getLocation(), false);
 			if (claim==null) {
 				return true;
@@ -151,7 +147,7 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 			damager.sendMessage(reason);
 		}
 		
-		return false;
+		return true;
 	}
 
 	@Override
