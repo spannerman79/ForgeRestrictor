@@ -145,9 +145,11 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 			}
 			
 			damager.sendMessage(reason);
+		} else {
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 	@Override
