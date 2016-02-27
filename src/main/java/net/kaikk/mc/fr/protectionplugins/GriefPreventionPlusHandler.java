@@ -117,13 +117,28 @@ public class GriefPreventionPlusHandler implements ProtectionHandler {
 	public boolean canAttack(Player damager, Entity damaged) {
 		if (damaged instanceof Player) {
 			if (!GriefPreventionPlus.getInstance().config.pvp_enabledWorlds.contains(damaged.getWorld().getUID())) {
-				damager.sendMessage("PvP is disabled in this world");
 				return false;
 			}
 			
 			Claim claim = this.dataStore.getClaimAt(damaged.getLocation(), false);
 			if (claim==null) {
 				return true;
+			}
+			
+			if (claim.isAdminClaim()) {
+				if (claim.getParent()==null) {
+					if (GriefPreventionPlus.getInstance().config.pvp_noCombatInAdminLandClaims) {
+						return false;
+					}
+				} else {
+					if (GriefPreventionPlus.getInstance().config.pvp_noCombatInAdminSubdivisions) {
+						return false;
+					}
+				}
+			} else {
+				if (GriefPreventionPlus.getInstance().config.pvp_noCombatInPlayerLandClaims) {
+					return false;
+				}
 			}
 			
 			String reason=claim.canBuild(damager);
