@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 
@@ -64,7 +63,7 @@ public class WorldGuardHandler implements ProtectionHandler {
 
 	@Override
 	public boolean canProjectileHit(Player player, Location location) {
-		return this.check(player, location, DefaultFlag.PVP);
+		return this.check(player, location, DefaultFlag.BUILD);
 	}
 	
 	@Override
@@ -79,6 +78,10 @@ public class WorldGuardHandler implements ProtectionHandler {
 	}
 	
 	protected boolean check(Player player, Location location, StateFlag flag) {
+		if (flag == DefaultFlag.BUILD) {
+			return worldGuard.canBuild(player, location);
+		}
+		
 		ApplicableRegionSet regions = this.getRegions(location);
 		boolean perm = regions.queryState(worldGuard.wrapPlayer(player), flag) != State.DENY;
 		if (!perm) {
