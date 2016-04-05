@@ -1,6 +1,7 @@
 package net.kaikk.mc.fr;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,6 +32,8 @@ import org.bukkit.util.BlockIterator;
 class EventListener implements Listener {
 	private ForgeRestrictor instance;
 	static ArrayList<ConfiscatedInventory> confiscatedInventories;
+	private UUID lastConfiscationUUID;
+	private long lastConfiscationTime;
 
 	EventListener(ForgeRestrictor instance) {
 		this.instance = instance;
@@ -291,7 +294,7 @@ class EventListener implements Listener {
 			}
 		}
 		
-		if (this.instance.config.confiscateLog) {
+		if (this.instance.config.confiscateLog && (!player.getUniqueId().equals(lastConfiscationUUID) || (System.currentTimeMillis()-lastConfiscationTime)>3000)) {
 			this.instance.getLogger().info("Confiscated "+player.getName()+" items for "+ticks+" ticks");
 		}
 		confiscatedInventories.add(new ConfiscatedInventory(player));
