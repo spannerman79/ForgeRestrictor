@@ -295,7 +295,7 @@ class EventListener implements Listener {
 		}
 		
 		if (this.instance.config.confiscateLog && (!player.getUniqueId().equals(lastConfiscationUUID) || (System.currentTimeMillis()-lastConfiscationTime)>3000)) {
-			this.instance.getLogger().info("Confiscated "+player.getName()+" items for "+ticks+" ticks");
+			this.instance.getLogger().info(player.getName()+"'s inventory has been confiscated for "+ticks+" ticks. Location: "+Utils.locationToString(player.getLocation())+" - ItemInHand: "+player.getItemInHand());
 		}
 		confiscatedInventories.add(new ConfiscatedInventory(player));
 	}
