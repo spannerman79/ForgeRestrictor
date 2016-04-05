@@ -290,7 +290,10 @@ class EventListener implements Listener {
 				}
 			}
 		}
-		this.instance.getLogger().info("Confiscated "+player.getName()+" items for "+ticks+" ticks");
+		
+		if (this.instance.config.confiscateLog) {
+			this.instance.getLogger().info("Confiscated "+player.getName()+" items for "+ticks+" ticks");
+		}
 		confiscatedInventories.add(new ConfiscatedInventory(player));
 	}
 

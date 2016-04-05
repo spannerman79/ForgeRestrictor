@@ -21,6 +21,8 @@ class Config {
 
 	int confiscateTicks;
 	
+	boolean confiscateLog;
+	
 	Config() {
 		this.configFile = new File(configFilePath);
 		this.config = YamlConfiguration.loadConfiguration(this.configFile);
@@ -59,6 +61,7 @@ class Config {
 		}
 		
 		this.confiscateTicks = this.config.getInt("ConfiscateTicks", 3);
+		this.confiscateLog = this.config.getBoolean("ConfiscateLog", true);
 		
 		this.save();
 	}
