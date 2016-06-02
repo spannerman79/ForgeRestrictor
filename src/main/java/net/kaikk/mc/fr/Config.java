@@ -75,6 +75,9 @@ class Config {
 			this.config.set("Ranged", serializeListedItemList(this.ranged));
 			this.config.set("AoE", serializeListedItemList(this.aoe));
 			
+			this.config.set("ConfiscateTicks", this.confiscateTicks);
+			this.config.set("ConfiscateLog", this.confiscateLog);
+			
 			this.config.save(this.configFile);
 		} catch (IOException e) {
 			e.printStackTrace();
