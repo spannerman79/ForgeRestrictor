@@ -34,6 +34,7 @@ class EventListener implements Listener {
 	static ArrayList<ConfiscatedInventory> confiscatedInventories;
 	private UUID lastConfiscationUUID;
 	private long lastConfiscationTime;
+	private Material lastConfiscationMaterial;
 
 	EventListener(ForgeRestrictor instance) {
 		this.instance = instance;
@@ -294,8 +295,10 @@ class EventListener implements Listener {
 			}
 		}
 		
-		if (this.instance.config.confiscateLog && (!player.getUniqueId().equals(lastConfiscationUUID) || (System.currentTimeMillis()-lastConfiscationTime)>3000)) {
+		if (this.instance.config.confiscateLog && (!player.getUniqueId().equals(lastConfiscationUUID) || player.getItemInHand().getType() != lastConfiscationMaterial || (System.currentTimeMillis()-lastConfiscationTime)>5000)) {
 			this.instance.getLogger().info(player.getName()+"'s inventory has been confiscated for "+ticks+" ticks. Location: "+Utils.locationToString(player.getLocation())+" - ItemInHand: "+player.getItemInHand());
+			lastConfiscationTime = System.currentTimeMillis();
+			lastConfiscationMaterial = player.getItemInHand().getType();
 		}
 		confiscatedInventories.add(new ConfiscatedInventory(player));
 	}
