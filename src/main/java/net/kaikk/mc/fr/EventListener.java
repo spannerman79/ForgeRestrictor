@@ -56,6 +56,11 @@ class EventListener implements Listener {
 			item = player.getItemInHand();
 		}
 		
+		// ignore skulls
+		if  (item.getType() == Material.SKULL_ITEM) {
+			return;
+		}
+		
 		// ignore all vanilla items and edible items in vanilla blocks actions
 		if (block!=null && (item.getData().getItemType().isEdible() || isVanilla(item.getType())) && isVanilla(block.getType())) {
 			return;
