@@ -29,6 +29,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
+import net.kaikk.mc.gpp.GriefPreventionPlus;
+
 class EventListener implements Listener {
 	private ForgeRestrictor instance;
 	static ArrayList<ConfiscatedInventory> confiscatedInventories;
@@ -63,6 +65,11 @@ class EventListener implements Listener {
 		
 		// ignore all vanilla items and edible items in vanilla blocks actions
 		if (block!=null && (item.getData().getItemType().isEdible() || isVanilla(item.getType())) && isVanilla(block.getType())) {
+			return;
+		}
+		
+		// ignore investigation tool
+		if (item.getType() == GriefPreventionPlus.getInstance().config.claims_investigationTool) {
 			return;
 		}
 
