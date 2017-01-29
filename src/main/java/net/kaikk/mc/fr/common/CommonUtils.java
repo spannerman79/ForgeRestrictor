@@ -23,7 +23,7 @@ public class CommonUtils {
 		}
 		return new UUID(msl, lsl);
 	}
-	
+
 	public static byte[] UUIDtoByteArray(UUID uuid) {
 		return ByteBuffer.allocate(16).putLong(uuid.getMostSignificantBits()).putLong(uuid.getLeastSignificantBits()).array();
 	}
@@ -45,11 +45,11 @@ public class CommonUtils {
 	public static short getUtcYear() {
 		return (short) Calendar.getInstance(TimeZone.getTimeZone("GMT")).get(Calendar.YEAR);
 	}
-	
+
 	public static int epoch() {
 		return (int) (System.currentTimeMillis()/1000);
 	}
-	
+
 
 	public static int ipv4ToInt(String address) {
 		String[] p = address.split("[.]");
@@ -66,7 +66,7 @@ public class CommonUtils {
 			} catch (ClassNotFoundException e) {
 				className = ste[i].getClassName();
 			}
-			
+
 			sb.append(className + "." + ste[i].getMethodName() +
 		            (ste[i].isNativeMethod() ? "(Native Method)" :
 		                (ste[i].getFileName() != null && ste[i].getLineNumber() >= 0 ?
@@ -128,12 +128,12 @@ public class CommonUtils {
 			sb.append(strs.get(i));
 			sb.append(' ');
 		}
-		
+
 		int lastChar = sb.length()-1;
 		if (lastChar>=0) {
 			sb.deleteCharAt(lastChar);
 		}
-		
+
 		return sb.toString();
 	}
 }
