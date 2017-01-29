@@ -1,4 +1,4 @@
-package net.kaikk.mc.fr;
+package net.kaikk.mc.fr.bukkit;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
@@ -10,29 +10,29 @@ import org.bukkit.inventory.ItemStack;
 
 public class CommandExec implements CommandExecutor {
 	private ForgeRestrictor instance;
-	
-	CommandExec(ForgeRestrictor instance) {
+
+	public CommandExec(ForgeRestrictor instance) {
 		this.instance = instance;
 	}
 
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player=null;
 		if (sender instanceof Player) {
 			player = (Player) sender;
 		}
-		
+
 		if (cmd.getName().equals("forgerestrictor")) {
 			if (!sender.hasPermission("forgerestrictor.manage")) {
 				sender.sendMessage("You don't have permission to use this command");
 				return false;
 			}
-			
+
 			if (args.length==0) {
 				sender.sendMessage("Usage:\n/"+label+" (add|remove|list|enable|disable|reload)");
 				return false;
 			}
-			
+
 			String usage;
 			switch(args[0].toLowerCase()) {
 			case "add":
@@ -42,7 +42,7 @@ public class CommandExec implements CommandExecutor {
 					sender.sendMessage(usage);
 					return false;
 				}
-				
+
 				try {
 					ListedItem listedItem=this.parseListedItemFromArgs(player, args);
 					switch(args[1].toLowerCase()) {
@@ -82,7 +82,7 @@ public class CommandExec implements CommandExecutor {
 					sender.sendMessage(usage);
 					return false;
 				}
-				
+
 				try {
 					ListedItem listedItem=this.parseListedItemFromArgs(player, args);
 					switch(args[1].toLowerCase()) {
@@ -119,7 +119,7 @@ public class CommandExec implements CommandExecutor {
 					sender.sendMessage(usage);
 					return false;
 				}
-				
+
 				try {
 					switch(args[1].toLowerCase()) {
 					case "whitelist":
@@ -162,7 +162,7 @@ public class CommandExec implements CommandExecutor {
 					sender.sendMessage(usage);
 					return false;
 				}
-				
+
 				if (args[1].equalsIgnoreCase("all")) {
 					for(ProtectionPlugins pp : ProtectionPlugins.values()) {
 						pp.setEnabled(true);
@@ -190,7 +190,7 @@ public class CommandExec implements CommandExecutor {
 					sender.sendMessage(usage);
 					return false;
 				}
-				
+
 				if (args[1].equalsIgnoreCase("all")) {
 					for(ProtectionPlugins pp : ProtectionPlugins.values()) {
 						pp.setEnabled(false);
@@ -225,28 +225,28 @@ public class CommandExec implements CommandExecutor {
 		sender.sendMessage("Wrong command.");
 		return false;
 	}
-	
-	
+
+
 	@SuppressWarnings("deprecation")
 	ListedItem parseListedItemFromArgs(Player player, String[] args) throws IllegalArgumentException {
 		Material material=null;
 		Short data=null;
 		String world=null;
 		int range=100;
-		
+
 		String[] arg2=args[2].split(":");
-		
+
 		if (arg2[0].equalsIgnoreCase("hand")) {
 			if (player==null) {
 				throw new IllegalArgumentException("Console can't use 'hand'");
 			}
-			
+
 			ItemStack itemInHand=player.getItemInHand();
 			if (itemInHand.getType()==Material.AIR) {
 				throw new IllegalArgumentException("Your hand is empty");
 			}
 			material=itemInHand.getType();
-			
+
 			if (arg2.length>1 && !arg2[1].equals("*")) {
 				data=itemInHand.getDurability();
 			}
@@ -257,7 +257,7 @@ public class CommandExec implements CommandExecutor {
 			} catch (NumberFormatException e) {
 				material=Material.matchMaterial(arg2[0]);
 			}
-			
+
 			if (arg2.length>1 && !arg2[1].equals("*")) {
 				try {
 					data=Short.valueOf(arg2[1]);
@@ -266,11 +266,11 @@ public class CommandExec implements CommandExecutor {
 				}
 			}
 		}
-		
+
 		if (material==null) {
 			throw new IllegalArgumentException("Unknown item");
 		}
-		
+
 		switch(args[1].toLowerCase()) {
 		case "whitelist":
 			if (args.length>3) {
@@ -279,7 +279,7 @@ public class CommandExec implements CommandExecutor {
 				}
 				world=args[3];
 			}
-			
+
 			return new ListedItem(material, data, world);
 		case "ranged":
 		case "aoe":
@@ -299,7 +299,7 @@ public class CommandExec implements CommandExecutor {
 					world=args[4];
 				}
 			}
-			
+
 			return new ListedRangedItem(material, data, world, range);
 		}
 		throw new IllegalArgumentException("Wrong list");

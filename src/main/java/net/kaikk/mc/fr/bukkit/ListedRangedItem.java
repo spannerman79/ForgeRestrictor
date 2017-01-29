@@ -1,19 +1,19 @@
-package net.kaikk.mc.fr;
+package net.kaikk.mc.fr.bukkit;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Material;
 
-class ListedRangedItem extends ListedItem {
-	int range;
-	
-	ListedRangedItem(Material material, Short data, String world, int range) {
-		super(material, data, world);	
+public class ListedRangedItem extends ListedItem {
+	public int range;
+
+	public ListedRangedItem(Material material, Short data, String world, int range) {
+		super(material, data, world);
 		this.range=range;
 	}
-	
-	ListedRangedItem(Map<String, Object> map) {
+
+	public ListedRangedItem(Map<String, Object> map) {
 		for (Entry<String, Object> entry : map.entrySet()) {
 			switch(entry.getKey()) {
 			case "material":
@@ -31,16 +31,16 @@ class ListedRangedItem extends ListedItem {
 			}
 		}
 	}
-	
-	ListedRangedItem(String serialized) {
+
+	public ListedRangedItem(String serialized) {
 		String[] arr=serialized.split(":");
 		if (arr.length<2) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		this.material = (Material) Material.valueOf(arr[0]);
 		this.range = Integer.valueOf(arr[1]);
-		
+
 		if (arr.length>2) {
 			this.data = (arr[2].equals("*")?null:Short.valueOf(arr[2]));
 			if (arr.length>3) {
@@ -48,11 +48,11 @@ class ListedRangedItem extends ListedItem {
 			}
 		}
 	}
-	
-	String serialize() {
+
+	public String serialize() {
 		return material+":"+range+(data==null&&world==null ? "" : (data==null ? ":*" : ":"+data)+(world==null ? "" : ":"+world));
 	}
-	
+
 	@Override
 	public String toString() {
 		return material+":"+(data==null?"*":data)+" ("+range+")"+(world==null ? "" : " ["+world+"]");

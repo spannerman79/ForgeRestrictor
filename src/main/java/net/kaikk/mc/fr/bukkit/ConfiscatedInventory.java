@@ -1,22 +1,22 @@
-package net.kaikk.mc.fr;
+package net.kaikk.mc.fr.bukkit;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-class ConfiscatedInventory {
+public class ConfiscatedInventory {
 	private Player player;
 	private ItemStack[] is;
 	private boolean isReleased;
-	
-	ConfiscatedInventory(Player player) {
+
+	public ConfiscatedInventory(Player player) {
 		this.player = player;
 		this.is = player.getInventory().getContents().clone();
 		player.getInventory().clear();
 		player.setItemInHand(new ItemStack(Material.AIR));
 	}
-	
-	void release() {
+
+	public void release() {
 		if (!this.isReleased) {
 			if (this.player.isOnline()) {
 				this.player.getInventory().setContents(this.is);
@@ -26,12 +26,12 @@ class ConfiscatedInventory {
 			}
 		}
 	}
-	
-	Player getPlayer() {
+
+	public Player getPlayer() {
 		return player;
 	}
-	
-	boolean isPlayerInventoryEmpty() {
+
+	public boolean isPlayerInventoryEmpty() {
 		for(ItemStack is : this.player.getInventory()) {
 			if (is!=null && is.getType()!=Material.AIR) {
 				return false;
@@ -39,7 +39,7 @@ class ConfiscatedInventory {
 		}
 		return true;
 	}
-	
+
 	private String inventoryContent() {
 		StringBuilder sb=new StringBuilder();
 		for (ItemStack is : this.is) {

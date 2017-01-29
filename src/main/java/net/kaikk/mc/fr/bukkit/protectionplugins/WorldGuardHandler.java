@@ -1,4 +1,4 @@
-package net.kaikk.mc.fr.protectionplugins;
+package net.kaikk.mc.fr.bukkit.protectionplugins;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -15,7 +15,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 
-import net.kaikk.mc.fr.ProtectionHandler;
+import net.kaikk.mc.fr.bukkit.ProtectionHandler;
 
 public class WorldGuardHandler implements ProtectionHandler {
 	WorldGuardPlugin worldGuard;

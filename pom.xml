@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.kaikk.mc</groupId>
 	<artifactId>ForgeRestrictor</artifactId>
-	<version>1.4-DEV-13</version>
+	<version>1.5-DEV1</version>
 	<licenses>
 		<license>
 			<name>GPL v3 License</name>
@@ -58,6 +58,10 @@
            <id>net.kaikk.mc</id>
            <url>http://kaikk.net/mc/repo/</url>
        </repository>
+		<repository>
+			<id>sponge</id>
+			<url>http://repo.spongepowered.org/maven</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -65,6 +69,12 @@
 			<artifactId>bukkit</artifactId>
 			<version>1.7.9-R0.2</version>
 			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spongepowered</groupId>
+			<artifactId>spongeapi</artifactId>
+			<version>5.1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

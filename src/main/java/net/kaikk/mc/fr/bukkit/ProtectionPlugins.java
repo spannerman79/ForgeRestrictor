@@ -1,9 +1,9 @@
-package net.kaikk.mc.fr;
+package net.kaikk.mc.fr.bukkit;
 
 import java.util.Arrays;
 
-import net.kaikk.mc.fr.protectionplugins.GriefPreventionPlusHandler;
-import net.kaikk.mc.fr.protectionplugins.WorldGuardHandler;
+import net.kaikk.mc.fr.bukkit.protectionplugins.GriefPreventionPlusHandler;
+import net.kaikk.mc.fr.bukkit.protectionplugins.WorldGuardHandler;
 
 public enum ProtectionPlugins {
 	GriefPreventionPlus(GriefPreventionPlusHandler.class),

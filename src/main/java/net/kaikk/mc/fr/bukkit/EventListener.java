@@ -1,4 +1,4 @@
-package net.kaikk.mc.fr;
+package net.kaikk.mc.fr.bukkit;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -31,20 +31,20 @@ import org.bukkit.util.BlockIterator;
 
 import net.kaikk.mc.gpp.GriefPreventionPlus;
 
-class EventListener implements Listener {
+public class EventListener implements Listener {
 	private ForgeRestrictor instance;
 	static ArrayList<ConfiscatedInventory> confiscatedInventories;
 	private UUID lastConfiscationUUID;
 	private long lastConfiscationTime;
 	private Material lastConfiscationMaterial;
 
-	EventListener(ForgeRestrictor instance) {
+	public EventListener(ForgeRestrictor instance) {
 		this.instance = instance;
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		// ignore stepping onto or into a block 
+		// ignore stepping onto or into a block
 		if (event.getAction()==Action.PHYSICAL) {
 			return;
 		}
@@ -56,17 +56,17 @@ class EventListener implements Listener {
 		if (item==null) {
 			item = player.getItemInHand();
 		}
-		
+
 		// ignore skulls
 		if  (item.getType() == Material.SKULL_ITEM) {
 			return;
 		}
-		
+
 		// ignore all vanilla items and edible items in vanilla blocks actions
 		if (block!=null && (item.getData().getItemType().isEdible() || isVanilla(item.getType())) && isVanilla(block.getType())) {
 			return;
 		}
-		
+
 		// ignore investigation tool
 		if (item.getType() == GriefPreventionPlus.getInstance().config.claims_investigationTool) {
 			return;
@@ -150,7 +150,7 @@ class EventListener implements Listener {
 		if (player.getName().startsWith("[")) {
 			return;
 		}
-		
+
 		ItemStack itemInHand=event.getItemInHand();
 
 		// special aoe items list (needs to check a wide area...)
@@ -192,7 +192,7 @@ class EventListener implements Listener {
 			final Player player = (Player) projectile.getShooter();
 			Block targetBlock = getTargetBlock(player, 100); // TODO max distance to config
 
-			if (targetBlock==null) { 
+			if (targetBlock==null) {
 				event.setCancelled(true);
 				projectile.remove(); // In order to prevent targeting any far away protected area, remove the projectile. (TODO use a items list for this feature?)
 			} else {
@@ -271,7 +271,7 @@ class EventListener implements Listener {
 			}
 		}
 	}
-	
+
 	void confiscateInventory(Player player) {
 		confiscateInventory(player, this.instance.config.confiscateTicks);
 	}
@@ -280,7 +280,7 @@ class EventListener implements Listener {
 		if (ticks<1) {
 			return;
 		}
-		
+
 		if (player.getName().startsWith("[") || !player.isOnline() || isInventoryEmpty(player)) {
 			return;
 		}
@@ -306,7 +306,7 @@ class EventListener implements Listener {
 				}
 			}
 		}
-		
+
 		if (this.instance.config.confiscateLog && (!player.getUniqueId().equals(lastConfiscationUUID) || player.getItemInHand().getType() != lastConfiscationMaterial || (System.currentTimeMillis()-lastConfiscationTime)>5000)) {
 			this.instance.getLogger().info(player.getName()+"'s inventory has been confiscated for "+ticks+" ticks. Location: "+Utils.locationToString(player.getLocation())+" - ItemInHand: "+player.getItemInHand());
 			lastConfiscationUUID = player.getUniqueId();

@@ -1,4 +1,4 @@
-package net.kaikk.mc.fr.protectionplugins;
+package net.kaikk.mc.fr.bukkit.protectionplugins;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -7,7 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 
-import net.kaikk.mc.fr.ProtectionHandler;
+import net.kaikk.mc.fr.bukkit.ProtectionHandler;
 import net.kaikk.mc.gpp.Claim;
 import net.kaikk.mc.gpp.DataStore;
 import net.kaikk.mc.gpp.GriefPreventionPlus;
