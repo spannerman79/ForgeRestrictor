@@ -8,7 +8,7 @@ import org.bukkit.Material;
 class ListedRangedItem extends ListedItem {
 	int range;
 	
-	ListedRangedItem(Material material, Byte data, String world, int range) {
+	ListedRangedItem(Material material, Short data, String world, int range) {
 		super(material, data, world);	
 		this.range=range;
 	}
@@ -20,7 +20,7 @@ class ListedRangedItem extends ListedItem {
 				this.material=(Material) Material.valueOf((String) entry.getValue());
 				break;
 			case "data":
-				this.data=Byte.valueOf((byte) entry.getValue());
+				this.data=Short.valueOf((byte) entry.getValue());
 				break;
 			case "world":
 				this.world=(String) entry.getValue();
@@ -42,7 +42,7 @@ class ListedRangedItem extends ListedItem {
 		this.range = Integer.valueOf(arr[1]);
 		
 		if (arr.length>2) {
-			this.data = (arr[2].equals("*")?null:Byte.valueOf(arr[2]));
+			this.data = (arr[2].equals("*")?null:Short.valueOf(arr[2]));
 			if (arr.length>3) {
 				this.world = (arr[3].equals("*")?null:arr[3]);
 			}

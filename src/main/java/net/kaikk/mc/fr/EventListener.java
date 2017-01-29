@@ -42,7 +42,6 @@ class EventListener implements Listener {
 		this.instance = instance;
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		// ignore stepping onto or into a block 
@@ -74,12 +73,12 @@ class EventListener implements Listener {
 		}
 
 		// whitelisted item check
-		if (this.instance.config.matchWhitelistItem(item.getType(), item.getData().getData(), player.getWorld().getName()) !=null) {
+		if (this.instance.config.matchWhitelistItem(item.getType(), item.getDurability(), player.getWorld().getName()) !=null) {
 			return;
 		}
 
 		// special aoe items list (needs to check a wide area...)
-		ListedRangedItem rangeItem = this.instance.config.matchAoEItem(item.getType(), item.getData().getData(), player.getWorld().getName());
+		ListedRangedItem rangeItem = this.instance.config.matchAoEItem(item.getType(), item.getDurability(), player.getWorld().getName());
 		if (rangeItem!=null) {
 			// check players location
 			for (ProtectionHandler protection : ProtectionPlugins.getHandlers()) {
@@ -96,7 +95,7 @@ class EventListener implements Listener {
 
 		if (block==null) {
 			// check if the item in hand is a ranged item
-			rangeItem = this.instance.config.matchRangedItem(item.getType(), item.getData().getData(), player.getWorld().getName());
+			rangeItem = this.instance.config.matchRangedItem(item.getType(), item.getDurability(), player.getWorld().getName());
 			if (rangeItem!=null) {
 				block=getTargetBlock(player, rangeItem.range);
 			}
@@ -113,11 +112,13 @@ class EventListener implements Listener {
 		// check permissions on that location
 		for (ProtectionHandler protection : ProtectionPlugins.getHandlers()) {
 			if (!protection.canInteract(player, targetLocation)) {
-				event.setUseInteractedBlock(Result.DENY);
-				event.setUseItemInHand(Result.DENY);
-				event.setCancelled(true);
-				this.confiscateInventory(player);
-				return;
+				if (item.getType() != Material.AIR || block == null || !protection.canOpenContainer(player, block)) {
+					event.setUseInteractedBlock(Result.DENY);
+					event.setUseItemInHand(Result.DENY);
+					event.setCancelled(true);
+					this.confiscateInventory(player);
+					return;
+				}
 			}
 		}
 	}
@@ -143,7 +144,6 @@ class EventListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		final Player player = event.getPlayer();
@@ -154,7 +154,7 @@ class EventListener implements Listener {
 		ItemStack itemInHand=event.getItemInHand();
 
 		// special aoe items list (needs to check a wide area...)
-		ListedRangedItem item = this.instance.config.getAoEItem(itemInHand.getType(), itemInHand.getData().getData(), player.getWorld().getName());
+		ListedRangedItem item = this.instance.config.getAoEItem(itemInHand.getType(), itemInHand.getDurability(), player.getWorld().getName());
 		if (item!=null) {
 			Location blockLocation = event.getBlock().getLocation();
 			for (ProtectionHandler protection : ProtectionPlugins.getHandlers()) {

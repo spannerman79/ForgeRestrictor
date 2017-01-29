@@ -7,7 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class CommandExec implements CommandExecutor {
 	private ForgeRestrictor instance;
@@ -231,7 +230,7 @@ public class CommandExec implements CommandExecutor {
 	@SuppressWarnings("deprecation")
 	ListedItem parseListedItemFromArgs(Player player, String[] args) throws IllegalArgumentException {
 		Material material=null;
-		Byte data=null;
+		Short data=null;
 		String world=null;
 		int range=100;
 		
@@ -249,7 +248,7 @@ public class CommandExec implements CommandExecutor {
 			material=itemInHand.getType();
 			
 			if (arg2.length>1 && !arg2[1].equals("*")) {
-				data=itemInHand.getData().getData();
+				data=itemInHand.getDurability();
 			}
 		} else {
 			try {
@@ -261,7 +260,7 @@ public class CommandExec implements CommandExecutor {
 			
 			if (arg2.length>1 && !arg2[1].equals("*")) {
 				try {
-					data=Byte.valueOf(arg2[1]);
+					data=Short.valueOf(arg2[1]);
 				} catch (NumberFormatException e) {
 					throw new IllegalArgumentException("Invalid metadata");
 				}

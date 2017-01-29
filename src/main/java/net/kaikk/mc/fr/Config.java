@@ -99,20 +99,20 @@ class Config {
 		this.save();
 	}
 	
-	ListedItem getWhitelistItem(Material material, Byte data, String world) {
+	ListedItem getWhitelistItem(Material material, Short data, String world) {
 		ForgeRestrictor.getInstance().getLogger().info("getWhitelistItem");
 		return getListedItem(this.whitelist, material, data, world);
 	}
 	
-	ListedRangedItem getRangedItem(Material material, Byte data, String world) {
+	ListedRangedItem getRangedItem(Material material, Short data, String world) {
 		return (ListedRangedItem) getListedItem(this.ranged, material, data, world);
 	}
 	
-	ListedRangedItem getAoEItem(Material material, Byte data, String world) {
+	ListedRangedItem getAoEItem(Material material, Short data, String world) {
 		return (ListedRangedItem) getListedItem(this.aoe, material, data, world);
 	}
 	
-	private static ListedItem getListedItem(List<? extends ListedItem> list, Material material, Byte data, String world) {
+	private static ListedItem getListedItem(List<? extends ListedItem> list, Material material, Short data, String world) {
 		for(ListedItem item : list) {
 			if (item.equals(material, data, world)) {
 				return item;
@@ -122,19 +122,19 @@ class Config {
 	}
 	
 	
-	ListedItem matchWhitelistItem(Material material, Byte data, String world) {
+	ListedItem matchWhitelistItem(Material material, Short data, String world) {
 		return matchListedItem(this.whitelist, material, data, world);
 	}
 	
-	ListedRangedItem matchRangedItem(Material material, Byte data, String world) {
+	ListedRangedItem matchRangedItem(Material material, Short data, String world) {
 		return (ListedRangedItem) matchListedItem(this.ranged, material, data, world);
 	}
 	
-	ListedRangedItem matchAoEItem(Material material, Byte data, String world) {
+	ListedRangedItem matchAoEItem(Material material, Short data, String world) {
 		return (ListedRangedItem) matchListedItem(this.aoe, material, data, world);
 	}
 	
-	private static ListedItem matchListedItem(List<? extends ListedItem> list, Material material, Byte data, String world) {
+	private static ListedItem matchListedItem(List<? extends ListedItem> list, Material material, Short data, String world) {
 		for(ListedItem item : list) {
 			if (item.match(material, data, world)) {
 				return item;
@@ -144,17 +144,17 @@ class Config {
 	}
 	
 	
-	boolean removeWhitelistItem(Material material, Byte data, String world) {
+	boolean removeWhitelistItem(Material material, Short data, String world) {
 		return removeListedItem(this.whitelist, material, data, world);
 	}
-	boolean removeRangedItem(Material material, Byte data, String world) {
+	boolean removeRangedItem(Material material, Short data, String world) {
 		return removeListedItem(this.ranged, material, data, world);
 	}
-	boolean removeAoEItem(Material material, Byte data, String world) {
+	boolean removeAoEItem(Material material, Short data, String world) {
 		return removeListedItem(this.aoe, material, data, world);
 	}
 	
-	private static boolean removeListedItem(List<? extends ListedItem> list, Material material, Byte data, String world) {
+	private static boolean removeListedItem(List<? extends ListedItem> list, Material material, Short data, String world) {
 		Iterator<? extends ListedItem> iterator=list.iterator();
 		while (iterator.hasNext()) {
 			if (iterator.next().equals(material, data, world)) {
