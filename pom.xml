@@ -83,5 +83,6 @@
 	<properties>
 		<package>net.kaikk.mc.fr</package>
 		<developer>KaiNoMood</developer>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 </project>
